@@ -19,6 +19,6 @@ describe("Button", () => {
 
     expect(handleClick).not.toHaveBeenCalled();
     button.simulate("click");
-    expect(handleClick).toHaveBeenCalled();
+    expect(handleClick).not.toHaveBeenCalled();
   });
 });

@@ -1,0 +1,57 @@
+{
+  "name": "motor-control-configurator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js"
+  },
+  "scripts": {
+    "flow": "flow",
+    "webpack": "webpack",
+    "build": "webpack -p",
+    "start": "webpack-dev-server",
+    "storybook": "start-storybook -p 6006",
+    "test": "jest",
+    "test:generate-output": "jest --json --outputFile=.jest-test-results.json",
+    "test:storybook": "npm run test:generate-output -- --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "normalized-styled-components": "^1.0.17",
+    "polished": "^1.9.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-act": "^1.5.1",
+    "redux-form": "^7.2.0",
+    "styled-components": "^2.4.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.3.9",
+    "@storybook/addon-jest": "^3.3.9",
+    "@storybook/addon-links": "^3.3.9",
+    "@storybook/addons": "^3.3.9",
+    "@storybook/react": "^3.3.9",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-flow-react-proptypes": "^13.0.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "flow-bin": "^0.63.1",
+    "flow-typed": "^2.2.3",
+    "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.1.1",
+    "prettier": "^1.10.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.10.1"
+  }
+}

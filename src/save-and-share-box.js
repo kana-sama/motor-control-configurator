@@ -3,9 +3,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import { Button } from "./button";
-import { TextInput } from "./text-input";
-import { Label, LabelText } from "./label";
+import { SaveForm } from "./save-form";
 
 function delay(duration = 200) {
   return new Promise(resolve => {
@@ -64,35 +62,6 @@ export class SaveAndShareBox extends Component<Props, State> {
     this.setState({ status: "IDLE", name });
   }
 
-  get isNameFetching(): boolean {
-    return this.state.status === "FETCHING";
-  }
-
-  get isNameChanged(): boolean {
-    return this.state.status === "CHANGED";
-  }
-
-  get isNameSaving(): boolean {
-    return this.state.status === "SAVING";
-  }
-
-  get isNameLoading(): boolean {
-    return this.isNameSaving || this.isNameFetching;
-  }
-
-  get saveButtonText(): ?string {
-    switch (this.state.status) {
-      case "FETCHING":
-        return "Fetching...";
-      case "IDLE":
-        return "Saved";
-      case "CHANGED":
-        return "Save";
-      case "SAVING":
-        return "Saving...";
-    }
-  }
-
   handleNameChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({ name: event.target.value, status: "CHANGED" });
   };
@@ -101,31 +70,47 @@ export class SaveAndShareBox extends Component<Props, State> {
     this.sendName();
   };
 
+  renderSaveForm() {
+    const defaultProps = {
+      name: this.state.name,
+      onNameChange: this.handleNameChange,
+      onSave: this.handleSaveFormSubmit
+    };
+
+    switch (this.state.status) {
+      case "FETCHING":
+        return (
+          <SaveForm
+            {...defaultProps}
+            saveButtonText="Loading..."
+            name="Loading..."
+            isNameDisabled
+            isSaveDisabled
+          />
+        );
+
+      case "IDLE":
+        return (
+          <SaveForm {...defaultProps} saveButtonText="Saved" isSaveDisabled />
+        );
+
+      case "CHANGED":
+        return <SaveForm {...defaultProps} saveButtonText="Save" />;
+
+      case "SAVING":
+        return (
+          <SaveForm
+            {...defaultProps}
+            saveButtonText="Saving..."
+            isNameDisabled
+            isSaveDisabled
+          />
+        );
+    }
+  }
+
   render() {
-    return (
-      <Wrapper>
-        <SaveForm>
-          <Field>
-            <Label>
-              <LabelText>Configuration Name</LabelText>
-              <TextInput
-                value={this.isNameLoading ? "Loading..." : this.state.name}
-                disabled={this.isNameLoading}
-                onChange={this.handleNameChange}
-              />
-            </Label>
-          </Field>
-          <Field>
-            <Button
-              disabled={!this.isNameChanged}
-              onClick={this.handleSaveFormSubmit}
-            >
-              {this.saveButtonText}
-            </Button>
-          </Field>
-        </SaveForm>
-      </Wrapper>
-    );
+    return <Wrapper>{this.renderSaveForm()}</Wrapper>;
   }
 }
 
@@ -135,22 +120,4 @@ const Wrapper = styled.div`
   border: 1px solid #dcdcdc;
 
   padding: 10px;
-`;
-
-const Field = styled.div`
-  margin: 6px;
-
-  ${Button}, ${TextInput}, ${Label} {
-    width: 100%;
-    max-width: 100%;
-
-    box-sizing: border-box;
-  }
-`;
-
-const SaveForm = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  width: 200px;
 `;
